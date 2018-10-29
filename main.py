@@ -12,12 +12,12 @@ import matplotlib.pyplot as plt
 import random
 import time
 import numpy as np
-from Trust_GUI_Practice import Window,StatusBar, Clickmenu
+"""from Trust_GUI_Practice import Window,StatusBar, Clickmenu
 from PyQt5.QtWidgets import QWidget, QApplication
 import sys
 from Trust_GUI import TrustGraph
-from Trust_GUI_Practice import Clickmenu
-"""
+from Trust_GUI_Practice import Clickmenu"""
+
 start_time = time.time()
 file_path = "C:\\Users\\alexa\\Documents\\TU Delft\\Course material\\Other\\Blockchain\\Blockchain Lab\\Incremental Pagerank\\"
 file_name = "trustchain"
@@ -42,22 +42,22 @@ print np.linalg.norm(np.array(page_ranks.values()) - np.array(page_ranks_2.value
 finish_time = time.time()
 
 print finish_time - start_time, " Seconds"
-"""
+
 """app = QApplication(sys.argv)
 app.aboutToQuit.connect(app.deleteLater)
 # app.setStyle(QStyleFactory.create("gtk"))
 screen = TrustGraph()
 screen.show()
 sys.exit(app.exec_())
-"""
-"""
+
+
 file_path = "C:\\Users\\alexa\\Documents\\TU Delft\\Course material\\Other\\Blockchain\\Blockchain Lab\\Incremental Pagerank\\"
 file_name = "trustchain"
 
 gr = GraphReduction2(file_path, file_name)
 gr.open_data_set()
 graph = gr.generate_graph()
-"""
+
 
 graph = nx.DiGraph()
 nodes = ['a', 'b', 'c', 'd', 'e']
@@ -68,4 +68,4 @@ app = QApplication(sys.argv)
 screen = TrustGraph(graph)
 screen.show()
 sys.exit(app.exec_())
-
+"""

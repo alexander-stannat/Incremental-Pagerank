@@ -9,7 +9,7 @@ import random
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from Page_Rank2 import IncrementalPersonalizedPageRank2
-
+from Page_Rank import IncrementalPersonalizedPageRank
 import numpy as np
 
 random.seed(1)
@@ -37,7 +37,7 @@ while number_of_random_walks <= 600:
     random_walk_length = 5
     while random_walk_length <= 100:
         random_walk_length += 1
-        """pr = IncrementalPersonalizedPageRank(graph, 0, number_of_random_walks, 0.05, random_walk_length)
+        pr = IncrementalPersonalizedPageRank(graph, 0, number_of_random_walks, 0.05, random_walk_length)
         pr.initial_random_walks()
         page_ranks = pr.compute_personalized_page_ranks()
         page_ranks_2 = nx.pagerank(pr.graph, alpha=0.95, personalization={0: 1},
@@ -79,7 +79,7 @@ plt.legend(handles=[red_patch, green_patch, yellow_patch])
 plt.title('Accuracy of Page Ranks')
 plt.ylabel('Error in % of power iteration values')
 plt.xlabel('Number of Random Walks')
-plt.show()"""
+plt.show()
 
 difference = []
 reset_probabilities = [0.05, 0.1, 0.15, 0.3, 0.5, 0.7, 0.9]

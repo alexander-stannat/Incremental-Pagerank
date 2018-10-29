@@ -7,7 +7,7 @@ import random
 import matplotlib.pyplot as plt
 import numpy
 from Page_Rank2 import IncrementalPersonalizedPageRank2
-
+from Page_Rank import IncrementalPersonalizedPageRank
 
 class Tests(unittest.TestCase):
 
