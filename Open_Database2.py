@@ -49,47 +49,32 @@ class GraphReduction2(object):
             if decode(str(block[1]))[1].keys() == ["down", "total_down", "up", "total_up"]:
                 if (str(block[2]).encode('hex'), str(block[4]).encode('hex')) in self.edges.keys():
                     self.edges[(str(block[2]).encode('hex'), str(block[4]).encode('hex'))] += \
-<<<<<<< HEAD
                         decode(str(block[1]))[1]["down"] - decode(str(block[1]))[1]["up"]
-=======
-                        decode(str(block[1]))[1]["up"] - decode(str(block[1]))[1]["down"]
->>>>>>> c91ac3e... Initial Commit
                     if self.edges[(str(block[2]).encode('hex'), str(block[4]).encode('hex'))] < 0:
                         self.edges[(str(block[4]).encode('hex'), str(block[2]).encode('hex'))] = -\
                             self.edges[(str(block[2]).encode('hex'), str(block[4]).encode('hex'))]
                         del self.edges[(str(block[2]).encode('hex'), str(block[4]).encode('hex'))]
-
                 elif (str(block[4]).encode('hex'), str(block[2]).encode('hex')) in self.edges.keys():
                     self.edges[(str(block[4]).encode('hex'), str(block[2]).encode('hex'))] += \
-<<<<<<< HEAD
                         decode(str(block[1]))[1]["up"] - decode(str(block[1]))[1]["down"]
-=======
-                        decode(str(block[1]))[1]["down"] - decode(str(block[1]))[1]["up"]
->>>>>>> c91ac3e... Initial Commit
                     if self.edges[(str(block[4]).encode('hex'), str(block[2]).encode('hex'))] < 0:
                         self.edges[(str(block[2]).encode('hex'), str(block[4]).encode('hex'))] = -\
                             self.edges[(str(block[4]).encode('hex'), str(block[2]).encode('hex'))]
                         del self.edges[(str(block[4]).encode('hex'), str(block[2]).encode('hex'))]
                 else:
-<<<<<<< HEAD
                     if decode(str(block[1]))[1]["down"] - decode(str(block[1]))[1]["up"] >= 0:
                         self.edges[(str(block[2]).encode('hex'), str(block[4]).encode('hex'))] = \
                             decode(str(block[1]))[1]["down"] - decode(str(block[1]))[1]["up"]
                     elif decode(str(block[1]))[1]["down"] - decode(str(block[1]))[1]["up"] < 0:
                         self.edges[(str(block[4]).encode('hex'), str(block[2]).encode('hex'))] = \
                             decode(str(block[1]))[1]["up"] - decode(str(block[1]))[1]["down"]
-=======
->>>>>>> c91ac3e... Initial Commit
                     if decode(str(block[1]))[1]["up"] - decode(str(block[1]))[1]["down"] >= 0:
                         self.edges[(str(block[2]).encode('hex'), str(block[4]).encode('hex'))] = \
                             decode(str(block[1]))[1]["up"] - decode(str(block[1]))[1]["down"]
                     elif decode(str(block[1]))[1]["up"] - decode(str(block[1]))[1]["down"] < 0:
                         self.edges[(str(block[4]).encode('hex'), str(block[2]).encode('hex'))] = \
                             decode(str(block[1]))[1]["down"] - decode(str(block[1]))[1]["up"]
-<<<<<<< HEAD
-=======
 
->>>>>>> c91ac3e... Initial Commit
         self.nodes = list(self.nodes)
         self.edges = iter(zip(self.edges.keys(), self.edges.values()))
         self.edges = iter(edge[0] + (edge[1],) for edge in self.edges)
@@ -99,7 +84,3 @@ class GraphReduction2(object):
         self.graph.add_nodes_from(self.nodes)
         self.graph.add_weighted_edges_from(list(self.edges))
         return self.graph
-<<<<<<< HEAD
-=======
-
->>>>>>> c91ac3e... Initial Commit

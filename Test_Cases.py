@@ -7,7 +7,6 @@ import random
 import matplotlib.pyplot as plt
 import numpy
 from Page_Rank2 import IncrementalPersonalizedPageRank2
-from Page_Rank import IncrementalPersonalizedPageRank
 
 
 class Tests(unittest.TestCase):
@@ -23,32 +22,27 @@ class Tests(unittest.TestCase):
         self.graph.add_nodes_from(self.nodes)
         self.graph.add_weighted_edges_from(self.edges)
 
-<<<<<<< HEAD
         # pr = IncrementalPersonalizedPageRank(self.graph, 'a', 200, 0.05, 100)
-=======
-        #pr = IncrementalPersonalizedPageRank(self.graph, 'a', 200, 0.05, 100)
->>>>>>> c91ac3e... Initial Commit
+
         pr = IncrementalPersonalizedPageRank2(self.graph, 'a', 300, 0.05)
         pr.initial_random_walks()
         page_ranks = pr.compute_personalized_page_ranks()
-        page_ranks_2 = nx.pagerank(self.graph, alpha=0.95, personalization={'a': 1},
+        page_ranks_2 = nx.pagerank(self.graph, alpha=0.95, personalization={'a': 1, 'b': 0, 'c': 0},
                                    max_iter=500, weight='weight')
         self.assertTrue('a' in page_ranks)
         self.assertTrue('b' in page_ranks)
         self.assertTrue('c' in page_ranks)
         self.assertEqual(len(pr.random_walks), 300)
-<<<<<<< HEAD
+
         # for walk in pr.random_walks:
-            # self.assertEqual(len(walk), 100)
-=======
-        #for walk in pr.random_walks:
-            #self.assertEqual(len(walk), 100)
->>>>>>> c91ac3e... Initial Commit
+        #   self.assertEqual(len(walk), 100)
+
         self.assertFalse(pr.removed_edges)
         self.assertFalse(pr.added_edges)
         self.assertGreaterEqual(page_ranks['a'], page_ranks['b'])
         self.assertGreaterEqual(page_ranks['a'], page_ranks['c'])
-        for node in self.graph.nodes:
+
+        for node in self.graph.nodes():
             self.assertAlmostEqual(page_ranks[node], page_ranks_2[node], 1)
 
     def test_page_rank_2(self):
@@ -62,17 +56,14 @@ class Tests(unittest.TestCase):
         self.graph.add_nodes_from(self.nodes)
         self.graph.add_weighted_edges_from(self.edges)
 
-<<<<<<< HEAD
         # pr = IncrementalPersonalizedPageRank(self.graph, 'a', 200, 0.05, 100)
-=======
-        #pr = IncrementalPersonalizedPageRank(self.graph, 'a', 200, 0.05, 100)
->>>>>>> c91ac3e... Initial Commit
+
         pr = IncrementalPersonalizedPageRank2(self.graph, 'a', 200, 0.05)
         pr.initial_random_walks()
         page_ranks = pr.compute_personalized_page_ranks()
-        page_ranks_2 = nx.pagerank(self.graph, alpha=0.95, personalization={'a': 1},
+        page_ranks_2 = nx.pagerank(self.graph, alpha=0.95, personalization={'a': 1, 'b': 0, 'c': 0},
                                    max_iter=500, weight='weight')
-        for node in pr.graph.nodes:
+        for node in pr.graph.nodes():
             self.assertAlmostEqual(page_ranks[node], page_ranks_2[node], 1)
 
         pr.add_node('d')
@@ -103,13 +94,10 @@ class Tests(unittest.TestCase):
         self.assertEqual(new_page_ranks['c'], 0)
         self.assertEqual(new_page_ranks['d'], 0)
         self.assertEqual(len(pr.random_walks), 200)
-<<<<<<< HEAD
+
         # for walk in pr.random_walks:
-        # self.assertEqual(len(walk), 100)
-=======
-        #for walk in pr.random_walks:
-            #self.assertEqual(len(walk), 100)
->>>>>>> c91ac3e... Initial Commit
+        #   self.assertEqual(len(walk), 100)
+
         for node in self.graph.nodes:
             self.assertAlmostEqual(new_page_ranks[node], new_page_ranks_2[node], 2)
 
@@ -118,11 +106,9 @@ class Tests(unittest.TestCase):
         We test a personalized page rank on an empty graph
         """
         self.graph = nx.DiGraph()
-<<<<<<< HEAD
+
         # pr = IncrementalPersonalizedPageRank(self.graph, None, 200, 0.05, 50)
-=======
-        #pr = IncrementalPersonalizedPageRank(self.graph, None, 200, 0.05, 50)
->>>>>>> c91ac3e... Initial Commit
+
         pr = IncrementalPersonalizedPageRank2(self.graph, None, 200, 0.05)
         page_ranks = pr.compute_personalized_page_ranks()
         self.assertEqual(page_ranks, {})
@@ -137,18 +123,15 @@ class Tests(unittest.TestCase):
         self.graph.add_nodes_from(self.nodes)
         self.graph.add_weighted_edges_from(self.edges)
 
-<<<<<<< HEAD
         # pr = IncrementalPersonalizedPageRank(self.graph, 'a', 200, 0.05, 50)
-=======
-        #pr = IncrementalPersonalizedPageRank(self.graph, 'a', 200, 0.05, 50)
->>>>>>> c91ac3e... Initial Commit
+
         pr = IncrementalPersonalizedPageRank2(self.graph, 'a', 200, 0.05)
         pr.initial_random_walks()
         page_ranks = pr.compute_personalized_page_ranks()
-        page_ranks_2 = nx.pagerank(pr.graph, alpha=0.95, personalization={'a': 1},
+        page_ranks_2 = nx.pagerank(pr.graph, alpha=0.95, personalization={'a': 1, 'b': 0, 'c': 0, 'd': 0, 'e': 0, 'f': 0, 'g': 0},
                                    max_iter=500, weight='weight')
 
-        for node in pr.graph.nodes:
+        for node in pr.graph.nodes():
             self.assertAlmostEqual(page_ranks[node], page_ranks_2[node], 1)
 
         pr.add_weight_to_edge('c', 'a', 3)
@@ -157,8 +140,9 @@ class Tests(unittest.TestCase):
         pr.add_weight_to_edge('a', 'd', 3)
         pr.add_weight_to_edge('e', 'b', 3)
         pr.update_random_walks()
+
         new_page_ranks = pr.compute_personalized_page_ranks()
-        new_page_ranks_2 = nx.pagerank(pr.graph, alpha=0.95, personalization={'a': 1},
+        new_page_ranks_2 = nx.pagerank(pr.graph, alpha=0.95, personalization={'a': 1, 'b': 0, 'c': 0, 'd': 0, 'e': 0, 'g': 0},
                                        max_iter=500, weight='weight')
         for node in pr.graph.nodes:
             self.assertAlmostEqual(new_page_ranks[node], new_page_ranks_2[node], 1)
@@ -166,13 +150,9 @@ class Tests(unittest.TestCase):
         self.assertFalse(pr.graph.has_edge('a', 'c'))
         self.assertFalse(pr.graph.has_edge('c', 'a'))
         self.assertFalse('f' in new_page_ranks.keys())
-<<<<<<< HEAD
+
         # for random_walk in pr.random_walks:
-            # self.assertEqual(set(random_walk), {'a', 'd', 'g'})
-=======
-        #for random_walk in pr.random_walks:
-            #self.assertEqual(set(random_walk), {'a', 'd', 'g'})
->>>>>>> c91ac3e... Initial Commit
+        #    self.assertEqual(set(random_walk), {'a', 'd', 'g'})
 
         pr.add_edge('a', 'c', 3)
         pr.add_node('f')
@@ -200,21 +180,24 @@ class Tests(unittest.TestCase):
         self.graph = nx.DiGraph()
         self.number_of_nodes = random.randint(2, 10000)
         self.nodes = range(self.number_of_nodes)
+        personalization_list = [0 for _ in range(len(self.nodes))]
+        personalization_list[0] = 1
+        personalization_dict = dict(zip(self.nodes, personalization_list))
         self.graph.add_nodes_from(self.nodes)
         for _ in range(2*self.number_of_nodes):
-            node_1 = random.choice(list(self.graph.nodes))
-            node_2 = random.choice(list(set(self.graph.nodes) - {node_1}))
+            node_1 = random.choice(list(self.graph.nodes()))
+            node_2 = random.choice(list(set(self.graph.nodes()) - {node_1}))
             if self.graph.has_edge(node_1, node_2) or self.graph.has_edge(node_2, node_1):
                 continue
             else:
-                weight = random.randint(0, 10)
+                weight = random.randint(1, 10)
                 self.graph.add_weighted_edges_from([(node_1, node_2, weight)])
-<<<<<<< HEAD
+
         pr = IncrementalPersonalizedPageRank2(self.graph, 0, 500, 0.3)
         pr.initial_random_walks()
         page_ranks = pr.compute_personalized_page_ranks()
-        page_ranks_2 = nx.pagerank(pr.graph, alpha=0.7, personalization={0: 1},
-                                   max_iter=1000, weight='weight')
+        page_ranks_2 = nx.pagerank(pr.graph, alpha=0.7, personalization=personalization_dict,
+                                   max_iter=500, weight='weight')
 
         # nx.draw_circular(pr.graph, with_labels=True, node_size=20, with_edge_labels=True)
         # plt.show()
@@ -222,22 +205,21 @@ class Tests(unittest.TestCase):
         diff = numpy.linalg.norm(numpy.array(page_ranks.values()) - numpy.array(page_ranks_2.values())) / \
             numpy.linalg.norm(numpy.array(page_ranks_2.values()))
         self.assertAlmostEqual(diff, 0, 1)
-=======
-        #pr = IncrementalPersonalizedPageRank(self.graph, 0, 200, 0.05, 50)
+
+        # pr = IncrementalPersonalizedPageRank(self.graph, 0, 200, 0.05, 50)
         pr = IncrementalPersonalizedPageRank2(self.graph, 0, 200, 0.05)
         pr.initial_random_walks()
         page_ranks = pr.compute_personalized_page_ranks()
         page_ranks_2 = nx.pagerank(pr.graph, alpha=0.95, personalization={0: 1},
                                    max_iter=500, weight='weight')
-        #nx.draw_circular(pr.graph, with_labels=True, node_size=20, with_edge_labels=True)
-        #plt.show()
+        # nx.draw_circular(pr.graph, with_labels=True, node_size=20, with_edge_labels=True)
+        # plt.show()
         print "Random Walks: ", pr.random_walks
 
         print "Initial Page Ranks: ", "\n", page_ranks, "\n", page_ranks_2
-        #print numpy.linalg.norm(numpy.array(page_ranks.values()) - numpy.array(page_ranks_2.values()))
+        # print numpy.linalg.norm(numpy.array(page_ranks.values()) - numpy.array(page_ranks_2.values()))
         for node in pr.graph.nodes:
             self.assertAlmostEqual(page_ranks[node], page_ranks_2[node], 1)
->>>>>>> c91ac3e... Initial Commit
 
         c = random.randint(self.number_of_nodes//4, self.number_of_nodes//2)
         choices = ["Remove Edge / Add Edge", "Change Edge Weight", "Remove Node / Add Node"]
@@ -266,7 +248,6 @@ class Tests(unittest.TestCase):
                     node = random.choice(list(set(pr.graph.nodes) - {0}))
                     pr.remove_node(node)
 
-<<<<<<< HEAD
         # nx.draw_circular(self.graph, with_labels=True, node_size=20, with_edge_labels=True)
         # plt.show()
 
@@ -279,33 +260,10 @@ class Tests(unittest.TestCase):
             numpy.linalg.norm(numpy.array(new_page_ranks_2.values()))
         self.assertAlmostEqual(diff, 0, delta=0.06)
 
-=======
-        #nx.draw_circular(self.graph, with_labels=True, node_size=20, with_edge_labels=True)
-        #plt.show()
+        # nx.draw_circular(self.graph, with_labels=True, node_size=20, with_edge_labels=True)
+        # plt.show()
 
-        pr.update_random_walks()
-        new_page_ranks = pr.compute_personalized_page_ranks()
-        new_page_ranks_2 = nx.pagerank(pr.graph, alpha=0.95, personalization={0: 1},
-                                       max_iter=500, weight='weight')
-        print "New Random Walks: ", pr.random_walks
-        print "New Page Ranks: ", "\n", new_page_ranks, "\n", new_page_ranks_2
-        #print numpy.linalg.norm(numpy.array(new_page_ranks.values()) - numpy.array(new_page_ranks_2.values()))
-        for node in pr.graph.nodes:
-            self.assertAlmostEqual(new_page_ranks[node], new_page_ranks_2[node], 1)
->>>>>>> c91ac3e... Initial Commit
 
 if __name__ == '__main__':
     unittest.main()
 
-
-
-<<<<<<< HEAD
-=======
-
-
-
-
-
-
-
->>>>>>> c91ac3e... Initial Commit

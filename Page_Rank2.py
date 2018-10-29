@@ -119,15 +119,15 @@ class IncrementalPersonalizedPageRank2(object):
         Determines the personalized page ranks based the random walks in the list random_walks
         :return: A dictionary of nodes and corresponding page ranks
         """
-        zeros = [0 for _ in range(len(list(self.graph.nodes)))]
-        page_ranks = dict(zip(list(self.graph.nodes), zeros))
-        visit_times = dict(zip(list(self.graph.nodes), zeros))
+        zeros = [0 for _ in range(len(list(self.graph.nodes())))]
+        page_ranks = dict(zip(list(self.graph.nodes()), zeros))
+        visit_times = dict(zip(list(self.graph.nodes()), zeros))
         nodes_in_random_walks = []
         for random_walk in self.random_walks:
             nodes_in_random_walks.extend(random_walk)
-        for node in self.graph.nodes:
+        for node in self.graph.nodes():
             visit_times[node] = nodes_in_random_walks.count(node)
-        for node in self.graph.nodes:
+        for node in self.graph.nodes():
             try:
                 page_ranks[node] = float(visit_times[node]) / sum(visit_times.values())
             except ZeroDivisionError:
@@ -222,7 +222,7 @@ class IncrementalPersonalizedPageRank2(object):
         Adds a node to the graph
         :param node: Node that is to be added
         """
-        if node not in self.graph.nodes:
+        if node not in self.graph.nodes():
             self.graph.add_node(node)
         else:
             print "node already in graph"
@@ -233,7 +233,7 @@ class IncrementalPersonalizedPageRank2(object):
         Removes a node from the graph
         :param node: node that is to be removed
         """
-        if node in self.graph.nodes:
+        if node in self.graph.nodes():
             for successor in self.graph.successors(node):
                 if (node, successor) in self.added_edges:
                     self.added_edges.remove((node, successor))
@@ -244,15 +244,12 @@ class IncrementalPersonalizedPageRank2(object):
                     self.removed_edges.append((predecessor, node))
                 if (predecessor, node) in self.added_edges:
                     self.added_edges.remove((predecessor, node))
-<<<<<<< HEAD
-=======
-            for edge in reversed(self.removed_edges):
+            """for edge in reversed(self.removed_edges):
                 if edge[0] == node:
                     self.removed_edges.remove(edge)
             for edge in reversed(self.added_edges):
                 if edge[0] == node:
-                    self.added_edges.remove(edge)
->>>>>>> c91ac3e... Initial Commit
+                    self.added_edges.remove(edge)"""
             self.graph.remove_node(node)
         return
 

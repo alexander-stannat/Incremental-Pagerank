@@ -1,9 +1,5 @@
 """
-<<<<<<< HEAD
 In this code we run the IncrementalPersonalizedPageRank2 class on a randomly generated graph to compute the
-=======
-In this code we run the IncrementalPersonalizedPageRank class on a randomly generated graph to compute the
->>>>>>> c91ac3e... Initial Commit
 personalized page rank values. We simultaneously the page rank method given in the networkx library and compare
 their values for different parameters.
 """
@@ -12,8 +8,8 @@ import networkx as nx
 import random
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-from Page_Rank import IncrementalPersonalizedPageRank
 from Page_Rank2 import IncrementalPersonalizedPageRank2
+
 import numpy as np
 
 random.seed(1)
@@ -26,12 +22,12 @@ random_walk_length = 5
 difference = list()
 
 for _ in range(2 * number_of_nodes):
-    node_1 = random.choice(list(graph.nodes))
-    node_2 = random.choice(list(set(graph.nodes) - {node_1}))
+    node_1 = random.choice(list(graph.nodes()))
+    node_2 = random.choice(list(set(graph.nodes()) - {node_1}))
     if graph.has_edge(node_1, node_2) or graph.has_edge(node_2, node_1):
         continue
     else:
-        weight = random.randint(0, 10)
+        weight = random.randint(1, 10)
         graph.add_weighted_edges_from([(node_1, node_2, weight)])
 nx.draw_circular(graph, node_size=30, with_labels=True)
 plt.show()
@@ -41,7 +37,7 @@ while number_of_random_walks <= 600:
     random_walk_length = 5
     while random_walk_length <= 100:
         random_walk_length += 1
-        pr = IncrementalPersonalizedPageRank(graph, 0, number_of_random_walks, 0.05, random_walk_length)
+        """pr = IncrementalPersonalizedPageRank(graph, 0, number_of_random_walks, 0.05, random_walk_length)
         pr.initial_random_walks()
         page_ranks = pr.compute_personalized_page_ranks()
         page_ranks_2 = nx.pagerank(pr.graph, alpha=0.95, personalization={0: 1},
@@ -49,11 +45,7 @@ while number_of_random_walks <= 600:
 
         difference.append(np.linalg.norm(np.array(page_ranks.values()) - np.array(page_ranks_2.values())) /
                           np.linalg.norm(page_ranks_2.values()))
-<<<<<<< HEAD
-        difference.append(np.linalg.norm(np.array(page_ranks.values()) - np.array(page_ranks_2.values())))
 
-=======
->>>>>>> c91ac3e... Initial Commit
 plt.plot(range(6, 101), difference[0:95], 'r', range(6, 101), difference[96:191], 'g',
          range(6, 101), difference[192:287], 'y')
 red_patch = mpatches.Patch(color='red', label='210 Random Walks')
@@ -62,10 +54,6 @@ yellow_patch = mpatches.Patch(color='yellow', label='610 Random Walks')
 plt.legend(handles=[red_patch, green_patch, yellow_patch])
 plt.title('Accuracy of Page Ranks')
 plt.ylabel('Error in % of power iteration values')
-<<<<<<< HEAD
-plt.ylabel('Euclidean Norm')
-=======
->>>>>>> c91ac3e... Initial Commit
 plt.xlabel('Random Walk Length')
 plt.show()
 
@@ -82,10 +70,6 @@ for random_walk_length in random_walk_lengths:
                                    max_iter=500, weight='weight')
         difference.append(np.linalg.norm(np.array(page_ranks.values()) - np.array(page_ranks_2.values())) /
                           np.linalg.norm(page_ranks_2.values()))
-<<<<<<< HEAD
-        difference.append(np.linalg.norm(np.array(page_ranks.values()) - np.array(page_ranks_2.values())))
-=======
->>>>>>> c91ac3e... Initial Commit
 plt.plot(range(60, 510, 50), difference[0:9], 'r', range(60, 510, 50), difference[10:19], 'g',
          range(60, 510, 50), difference[20:29], 'y')
 red_patch = mpatches.Patch(color='red', label='Random Walk Length: 25')
@@ -94,12 +78,8 @@ yellow_patch = mpatches.Patch(color='yellow', label='Random Walk Length: 100')
 plt.legend(handles=[red_patch, green_patch, yellow_patch])
 plt.title('Accuracy of Page Ranks')
 plt.ylabel('Error in % of power iteration values')
-<<<<<<< HEAD
-plt.ylabel('Euclidean Norm')
-=======
->>>>>>> c91ac3e... Initial Commit
 plt.xlabel('Number of Random Walks')
-plt.show()
+plt.show()"""
 
 difference = []
 reset_probabilities = [0.05, 0.1, 0.15, 0.3, 0.5, 0.7, 0.9]
@@ -115,10 +95,6 @@ for reset_probability in reset_probabilities:
 
         difference.append(np.linalg.norm(np.array(page_ranks.values()) - np.array(page_ranks_2.values())) /
                           np.linalg.norm(page_ranks_2.values()))
-<<<<<<< HEAD
-        difference.append(np.linalg.norm(np.array(page_ranks.values()) - np.array(page_ranks_2.values())))
-=======
->>>>>>> c91ac3e... Initial Commit
 plt.plot(range(15, 510, 5), difference[0:99], 'r', range(15, 510, 5), difference[99:198], 'g',
          range(15, 510, 5), difference[198:297], 'y', range(15, 510, 5), difference[297:396], 'b',
          range(15, 510, 5), difference[396:495], 'c')
@@ -130,10 +106,6 @@ cyan_patch = mpatches.Patch(color='cyan', label='Reset Probability: 0.5')
 plt.legend(handles=[red_patch, green_patch, yellow_patch, blue_patch])
 plt.title('Accuracy of Page Ranks')
 plt.ylabel('Error in % of power iteration values')
-<<<<<<< HEAD
-plt.ylabel('Euclidean Norm')
-=======
->>>>>>> c91ac3e... Initial Commit
 plt.xlabel('Number of Random Walks')
 plt.show()
 
@@ -150,10 +122,6 @@ for number_of_random_walks in numbers_of_random_walks:
                                    max_iter=500, weight='weight')
         difference.append(np.linalg.norm(np.array(page_ranks.values()) - np.array(page_ranks_2.values())) /
                           np.linalg.norm(page_ranks_2.values()))
-<<<<<<< HEAD
-        difference.append(np.linalg.norm(np.array(page_ranks.values()) - np.array(page_ranks_2.values())))
-=======
->>>>>>> c91ac3e... Initial Commit
         reset_probability += 0.05
 plt.plot(list(np.linspace(0.05, 0.9, 18)), difference[0:18], 'r',
          list(np.linspace(0.05, 0.9, 18)), difference[18:36], 'g',
@@ -167,9 +135,3 @@ plt.title('Accuracy of Page Ranks')
 plt.ylabel('Error in % of power iteration values')
 plt.xlabel('Reset Probability')
 plt.show()
-<<<<<<< HEAD
-plt.ylabel('Euclidean Norm')
-plt.xlabel('Reset Probability')
-plt.show()
-=======
->>>>>>> c91ac3e... Initial Commit

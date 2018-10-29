@@ -83,8 +83,11 @@ class TrustGraph(QWidget):
         return
 
     def MostTrustedPeer(self):
-
-        print 2
+        for node in graph.nodes():
+            if pagerank[node] = max(pagerank):
+                self.most_trusted_node = node
+        print nx.shortest_path(self.main_node, self.most_trusted_node)
+        return self.most_trusted_node
 
     def MostLikelyPath(self):
 
