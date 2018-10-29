@@ -1,64 +1,97 @@
+"""
+The code below opens the trustchain database and runs the Monte Carlo PageRank algorithm on it's directed graph
+determining the trustworthiness of the agents in the network.
+"""
+
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+import networkx as nx
 import sys
-from PyQt5 import QtWidgets
-from PyQt5 import QtGui
-from PyQt5.QtCore import QDateTime
-from PyQt5.QtCore import QDate
-from PyQt5.QtCore import QTime
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 
 
-class Window(object):
-    """Class to implement a window with an icon"""
+class TrustGraph(QWidget):
+    NumButtons = ['Show Neighbourhood', 'Most Trusted Peer', 'Most Likely Path']
 
-    def __init__(self, window_width, window_height, window_position_horizontal, window_position_vertical):
-        """
-        Initializes the class above...
-        :param window_width:
-        :param window_height:
-        :param window_position_horizontal:
-        :param window_position_vertical:
-        """
-        self.window_width = window_width
-        self.window_height = window_height
-        self.window_position_horizontal = window_position_horizontal
-        self.window_position_vertical = window_position_vertical
+    def __init__(self, graph):
+        super(TrustGraph, self).__init__()
 
-    def place_window(self):
-        """
-        Places the window at a particular position on the screen
-        :return:
-        """
-        app = QtWidgets.QApplication(sys.argv)
-        widget = QtWidgets.QWidget()
-        widget.setWindowTitle("Network Explorer")
-        widget.resize(self.window_width, self.window_height)
-        widget.move(self.window_position_horizontal, self.window_position_vertical)
-        widget.setWindowIcon(QtGui.QIcon('Tribler Logo.png'))
-        exit(app.exec_())
+        self.graph = graph
+        self.subgraph = nx.DiGraph()
+        # self.main_node = main_node
+
+        font = QFont()
+        font.setPointSize(16)
+
+        self.initUI()
+
+    def initUI(self):
+        self.setGeometry(100, 100, 800, 600)
+        self.center()
+        self.setWindowTitle('Network Plot')
+        self.setWindowIcon(QIcon('Tribler Logo.png'))
+
+        self.grid = QGridLayout()
+        self.setLayout(self.grid)
+        self.createVerticalGroupBox()
+
+        buttonLayout = QVBoxLayout()
+        buttonLayout.addWidget(self.verticalGroupBox)
+
+        self.figure = plt.figure()
+        self.canvas = FigureCanvas(self.figure)
+        self.grid.addWidget(self.canvas, 0, 1, 9, 9)
+        self.grid.addLayout(buttonLayout, 0, 0)
+
+        self.main_node = list(self.graph.nodes())[0]
+
+        node_color = []
+        for node in self.graph.nodes():
+            if node == self.main_node:
+                node_color.append('red')
+            else:
+                node_color.append('blue')
+
+        nx.draw_networkx(self.graph, node_color=node_color)
+
+    def createVerticalGroupBox(self):
+        self.verticalGroupBox = QGroupBox()
+        layout = QVBoxLayout()
+        for i in self.NumButtons:
+            button = QPushButton(i)
+            button.setObjectName(i)
+            layout.addWidget(button)
+            layout.setSpacing(10)
+            self.verticalGroupBox.setLayout(layout)
+            button.clicked.connect(self.submitCommand)
         return
 
-
-    """def add_date_and_time(self):
-        
-        Adds date and time to the window
-        :return:
-        
-        datetime = QDateTime.currentDateTime()
-        date = QDate.currentDate()
-        time = QTime.currentTime()
-        return datetime.toString() + "\n" + date.toString() + "\n" + time.toString()
-
-    def add_button(self, text, position):
-        
-        :param text:
-        :param position:
-        :return:
-        
-        app = QtWidgets.QApplication(sys.argv)
-        button = QtGui.QPushButton('Button')
-        #  button = button.setToolTip('This is a <b>QPushButton</b> widget')
-        button.setFixedSize(400, 400)
-        button.show()
-        app.exec_()
+    def submitCommand(self):
+        eval('self.' + str(self.sender().objectName()).replace(" ", "") + '()')
         return
-        """
 
+    def ShowNeighbourhood(self):
+        self.figure = plt.figure()
+        self.canvas = FigureCanvas(self.figure)
+        self.grid.addWidget(self.canvas, 0, 1, 9, 9)
+        self.subgraph = self.graph.subgraph(list(set(self.main_node).union(set(self.graph.neighbors(self.main_node)))))
+        nx.draw_networkx(self.subgraph)
+        # self.show()
+        return
+
+    def MostTrustedPeer(self):
+
+        print 2
+
+    def MostLikelyPath(self):
+
+        print 3
+
+    def center(self):
+        qr = self.frameGeometry()
+        cp = QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
