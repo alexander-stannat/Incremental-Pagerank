@@ -14,11 +14,12 @@ import sys
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 import numpy as np
 import operator
+from heapq import nlargest
 import copy
 
 
 class TrustGUI(QWidget):
-    NumButtons = ['Most Trusted Peer', 'Show Trustworthy Peers', 'Remove Untrustworthy Peers', 'Show Most Likely Path']
+    NumButtons = ['Show Most Trusted Peer', 'Show Trustworthy Peers', 'Remove Untrustworthy Peers', 'Show Most Likely Path']
 
     def __init__(self, graph, main_node, page_ranks):
         super(TrustGUI, self).__init__()
@@ -109,7 +110,7 @@ class TrustGUI(QWidget):
         eval('self.' + str(self.sender().objectName()).replace(" ", "") + '()')
         return
 
-    def MostTrustedPeer(self):
+    def ShowMostTrustedPeer(self):
         self.page_ranks_of_subgraph = {node: self.page_ranks[node] for node in self.sub_graph.nodes()}
         del self.page_ranks_of_subgraph[self.main_node]
         self.most_trusted_node = max(self.page_ranks_of_subgraph.iteritems(), key=operator.itemgetter(1))[0]
@@ -118,20 +119,38 @@ class TrustGUI(QWidget):
         self.figure.clf()
         self.canvas.draw_idle()
 
+        plt.title('Tribler Network', size=15)
+        plt.axis('off')
+
         nx.draw_networkx_nodes(self.sub_graph, pos=self.pos, nodelist=[self.main_node, self.most_trusted_node],
                                node_size=50, width=0.05, node_color=self.node_color)
 
         nx.draw_networkx_nodes(self.sub_graph, pos=self.pos, nodelist=self.page_ranks_of_subgraph.keys(), node_size=50,
                                width=0.05, node_color=self.node_color, alpha=0.1)
-        # nx.draw_networkx_edges(self.sub_graph, edgelist=[(self.main_node, self.most_trusted_node)], width=0.05)
+        nx.draw_networkx_edges(self.sub_graph, pos=self.pos, edgelist=[(self.main_node, self.most_trusted_node)], width=0.2)
+        # nx.draw_networkx_edges(self.sub_graph, pos=self.pos, edgelist=self.sub_graph.edges(), width=0.05, alpha=0.1)
 
     def ShowTrustworthyPeers(self):
-        self.figure = plt.figure()
-        self.canvas = FigureCanvas(self.figure)
-        self.grid.addWidget(self.canvas, 9, 9)
-        self.subgraph = self.graph.subgraph(list(set(self.main_node).union(set(self.graph.neighbors(self.main_node)))))
-        nx.draw_networkx(self.subgraph)
-        # self.show()
+        self.page_ranks_of_subgraph = {node: self.page_ranks[node] for node in self.sub_graph.nodes()}
+        del self.page_ranks_of_subgraph[self.main_node]
+        self.most_trusted_nodes = nlargest(10, self.page_ranks_of_subgraph)
+
+        for node in self.most_trusted_nodes:
+            del self.page_ranks_of_subgraph[node]
+
+        self.figure.clf()
+        self.canvas.draw_idle()
+
+        plt.title('Tribler Network', size=15)
+        plt.axis('off')
+
+        nodelist = list(set(self.most_trusted_nodes).union({self.main_node}))
+        nx.draw_networkx_nodes(self.sub_graph, pos=self.pos, nodelist=nodelist,
+                               node_size=50, width=0.05, node_color=self.node_color)
+
+        nx.draw_networkx_nodes(self.sub_graph, pos=self.pos, nodelist=self.page_ranks_of_subgraph.keys(), node_size=50,
+                               width=0.05, node_color=self.node_color, alpha=0.1)
+        nx.
         return
 
     def MostLikelyPath(self):
@@ -211,7 +230,6 @@ class TrustGUI(QWidget):
         labels[self.main_node] = r'you'
         self.pos[main_node] = np.array([0, 0])
         nx.draw(self.sub_graph, with_labels=True, labels=labels, pos=self.pos, node_color=self.node_color, node_size=50, width=0.05)
-        print self.pos[self.main_node]
 
     """def onclick(event):
         clickX = event.x
