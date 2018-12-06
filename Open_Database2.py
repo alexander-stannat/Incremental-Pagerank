@@ -7,7 +7,6 @@ import time
 
 import networkx as nx
 from Encode import decode
-import copy
 
 
 class GraphReduction2(object):
@@ -33,9 +32,6 @@ class GraphReduction2(object):
 		self.file_path = file_path
 		self.file_name = file_name
 		self.graph = nx.DiGraph()
-		# self.blocks = []
-		# self.nodes = set()
-		# self.edges = dict()
 		print("graphreduction instantiated")
 
 	def open_data_set(self):
@@ -53,11 +49,10 @@ class GraphReduction2(object):
 		round_count = 0
 		skipped_blocks = 0
 		raw_block = cursor.fetchone()
-		old_time = time.time() - 1
+		old_time = time.time() - 1  # Initialize to time a second ago to prevent division by zero at line 58
 
 		# Dict where all the edges will be stored
 		edges = {}
-
 		while raw_block is not None:
 			if (round_count % 5000) == 0:
 				print("{} blocks parsed, {} bloccks skipped, at {} blocks/seconds".format(round_count, skipped_blocks,
