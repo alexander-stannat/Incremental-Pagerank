@@ -21,7 +21,7 @@ from PyQt5.QtWidgets import QWidget, QApplication
 import pickle
 import sys
 
-"""
+
 start_time = time.time()
 file_path = "C:\\Users\\alexa\\Documents\\TU Delft\\Course material\\Other\\Blockchain\\Blockchain Lab\\Incremental Pagerank\\"
 file_name = "trustchain"
@@ -30,7 +30,7 @@ gr = GraphReduction2(file_path, file_name)
 gr.open_data_set()
 graph = gr.generate_graph()
 
-main_node = random.choice(gr.nodes)
+main_node = random.choice(list(graph.nodes()))
 pr = IncrementalPersonalizedPageRank2(graph, main_node, 300, 0.05)
 pr.initial_random_walks()
 page_ranks = pr.compute_personalized_page_ranks()
@@ -44,13 +44,13 @@ print np.linalg.norm(np.array(page_ranks.values()) - np.array(page_ranks_2.value
 finish_time = time.time()
 print finish_time - start_time, " Seconds" 
 
-
+"""
 dataset = [graph, main_node, page_ranks]
 outputFile = 'test.data'
 fw = open(outputFile, 'wb')
 pickle.dump(dataset, fw)
 fw.close()
-"""
+
 
 inputFile = 'test.data'
 fd = open(inputFile, 'rb')
@@ -60,7 +60,7 @@ graph = dataset[0]
 main_node = dataset[1]
 page_ranks = dataset[2]
 
-
+"""
 app = QApplication(sys.argv)
 trustgui = TrustGUI(graph, main_node, page_ranks)
 sys.exit(app.exec_())

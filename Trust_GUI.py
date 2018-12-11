@@ -19,7 +19,7 @@ import copy
 
 
 class TrustGUI(QWidget):
-    NumButtons = ['Show Most Trusted Peer', 'Show Trustworthy Peers', 'Remove Untrustworthy Peers', 'Show Most Likely Path']
+    NumButtons = ['Show All Peers', 'Show Most Trusted Peer', 'Show Trustworthy Peers']
 
     def __init__(self, graph, main_node, page_ranks):
         super(TrustGUI, self).__init__()
@@ -37,9 +37,6 @@ class TrustGUI(QWidget):
         :return:
         """
 
-        """ Create slot to receive mouse click signal """
-
-
         """ Set Window Parameters """
         self.setGeometry(100, 100, 800, 600)
         self.center()
@@ -50,6 +47,7 @@ class TrustGUI(QWidget):
         """ Set Grid Layout """
         self.grid = QGridLayout()
         self.setLayout(self.grid)
+
 
         """ Create Actions for GUI window """
         exitAct = QAction('Exit Application', self)
@@ -93,7 +91,6 @@ class TrustGUI(QWidget):
         self.show()
 
 
-
     def createVerticalGroupBox(self):
         self.verticalGroupBox = QGroupBox()
         layout = QVBoxLayout()
@@ -116,6 +113,25 @@ class TrustGUI(QWidget):
         self.most_trusted_node = max(self.page_ranks_of_subgraph.iteritems(), key=operator.itemgetter(1))[0]
         del self.page_ranks_of_subgraph[self.most_trusted_node]
 
+        self.node_color_trusted = []
+        self.node_color_untrusted = []
+
+        for node in self.sub_graph.nodes():
+            if node in self.page_ranks_of_subgraph.keys():
+                if self.page_ranks[node] < 0.0001:
+                    self.node_color_untrusted.append('red')
+                if 0.0001 < self.page_ranks[node] < 0.0005:
+                    self.node_color_untrusted.append('yellow')
+                if self.page_ranks[node] > 0.0005:
+                    self.node_color_untrusted.append('green')
+            else:
+                if self.page_ranks[node] < 0.0001:
+                    self.node_color_trusted.append('red')
+                if 0.0001 < self.page_ranks[node] < 0.0005:
+                    self.node_color_trusted.append('yellow')
+                if self.page_ranks[node] > 0.0005:
+                    self.node_color_trusted.append('green')
+
         self.figure.clf()
         self.canvas.draw_idle()
 
@@ -123,12 +139,11 @@ class TrustGUI(QWidget):
         plt.axis('off')
 
         nx.draw_networkx_nodes(self.sub_graph, pos=self.pos, nodelist=[self.main_node, self.most_trusted_node],
-                               node_size=50, width=0.05, node_color=self.node_color)
-
+                               node_size=50, width=0.05, node_color=self.node_color_trusted)
         nx.draw_networkx_nodes(self.sub_graph, pos=self.pos, nodelist=self.page_ranks_of_subgraph.keys(), node_size=50,
-                               width=0.05, node_color=self.node_color, alpha=0.1)
+                               width=0.05, node_color=self.node_color_untrusted, alpha=0.1)
         nx.draw_networkx_edges(self.sub_graph, pos=self.pos, edgelist=[(self.main_node, self.most_trusted_node)], width=0.2)
-        # nx.draw_networkx_edges(self.sub_graph, pos=self.pos, edgelist=self.sub_graph.edges(), width=0.05, alpha=0.1)
+        nx.draw_networkx_edges(self.sub_graph, pos=self.pos, edgelist=self.sub_graph.edges(), width=0.05, alpha=0.1)
 
     def ShowTrustworthyPeers(self):
         self.page_ranks_of_subgraph = {node: self.page_ranks[node] for node in self.sub_graph.nodes()}
@@ -138,6 +153,25 @@ class TrustGUI(QWidget):
         for node in self.most_trusted_nodes:
             del self.page_ranks_of_subgraph[node]
 
+        self.node_color_trusted = []
+        self.node_color_untrusted = []
+
+        for node in self.sub_graph.nodes():
+            if node in self.page_ranks_of_subgraph.keys():
+                if self.page_ranks[node] < 0.0001:
+                    self.node_color_untrusted.append('red')
+                if 0.0001 < self.page_ranks[node] < 0.0005:
+                    self.node_color_untrusted.append('yellow')
+                if self.page_ranks[node] > 0.0005:
+                    self.node_color_untrusted.append('green')
+            else:
+                if self.page_ranks[node] < 0.0001:
+                    self.node_color_trusted.append('red')
+                if 0.0001 < self.page_ranks[node] < 0.0005:
+                    self.node_color_trusted.append('yellow')
+                if self.page_ranks[node] > 0.0005:
+                    self.node_color_trusted.append('green')
+
         self.figure.clf()
         self.canvas.draw_idle()
 
@@ -146,16 +180,15 @@ class TrustGUI(QWidget):
 
         nodelist = list(set(self.most_trusted_nodes).union({self.main_node}))
         nx.draw_networkx_nodes(self.sub_graph, pos=self.pos, nodelist=nodelist,
-                               node_size=50, width=0.05, node_color=self.node_color)
+                               node_size=50, width=0.05, node_color=self.node_color_trusted)
 
         nx.draw_networkx_nodes(self.sub_graph, pos=self.pos, nodelist=self.page_ranks_of_subgraph.keys(), node_size=50,
-                               width=0.05, node_color=self.node_color, alpha=0.1)
-        nx.
+                               width=0.05, node_color=self.node_color_untrusted, alpha=0.1)
+        #nx.
         return
 
-    def MostLikelyPath(self):
-
-        print 3
+    def ShowAllPeers(self):
+        self.showgraph(self.main_node)
 
     def center(self):
         qr = self.frameGeometry()
@@ -225,35 +258,10 @@ class TrustGUI(QWidget):
             if self.page_ranks[node] > 0.0005:
                 self.node_color.append('green')
 
+        self.figure.clf()
+        self.canvas.draw_idle()
 
         labels = {}
         labels[self.main_node] = r'you'
         self.pos[main_node] = np.array([0, 0])
         nx.draw(self.sub_graph, with_labels=True, labels=labels, pos=self.pos, node_color=self.node_color, node_size=50, width=0.05)
-
-    """def onclick(event):
-        clickX = event.x
-        clickY = event.y
-
-
-        if 93 < clickX < 162 and 427 < clickY < 488:
-            print "lala"
-            # self.showgraph(self.main_node)
-        elif 286 < clickX < 354 and 353 < clickY < 423:
-            print "lala"
-            # self.showgraph(self.main_node)
-        elif 529 < clickX < 595 and 437 < clickY < 501:
-            print "lala"
-            # self.showgraph(self.main_node)
-        elif 479 < clickX < 551 and 65 < clickY < 137:
-            print "lala"
-            # self.showgraph(self.main_node)
-        elif 225 < clickX < 295 and 149 < clickY < 220:
-            print "lala"
-            # self.showgraph(self.main_node)
-
-        self.cid = self.figure.canvas.mpl_connect('button_press_event', self.onclick())
-        self.canvas.draw_idle()"""
-
-
-
