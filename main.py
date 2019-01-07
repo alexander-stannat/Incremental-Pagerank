@@ -21,7 +21,7 @@ from PyQt5.QtWidgets import QWidget, QApplication
 import pickle
 import sys
 
-
+"""
 start_time = time.time()
 file_path = "C:\\Users\\alexa\\Documents\\TU Delft\\Course material\\Other\\Blockchain\\Blockchain Lab\\Incremental Pagerank\\"
 file_name = "trustchain"
@@ -44,7 +44,7 @@ print np.linalg.norm(np.array(page_ranks.values()) - np.array(page_ranks_2.value
 finish_time = time.time()
 print finish_time - start_time, " Seconds" 
 
-"""
+
 dataset = [graph, main_node, page_ranks]
 outputFile = 'test.data'
 fw = open(outputFile, 'wb')
@@ -60,7 +60,9 @@ graph = dataset[0]
 main_node = dataset[1]
 page_ranks = dataset[2]
 
-"""
+
 app = QApplication(sys.argv)
 trustgui = TrustGUI(graph, main_node, page_ranks)
 sys.exit(app.exec_())
+"""
+
