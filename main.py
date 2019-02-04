@@ -44,19 +44,19 @@ print np.linalg.norm(np.array(page_ranks.values()) - np.array(page_ranks_2.value
 finish_time = time.time()
 print finish_time - start_time, " Seconds" 
 
-
+"""
 dataset = [graph, main_node, page_ranks]
 outputFile = 'test.data'
 fw = open(outputFile, 'wb')
 pickle.dump(dataset, fw)
 fw.close()
 
-"""
+
 inputFile = 'test.data'
 fd = open(inputFile, 'rb')
 dataset = pickle.load(fd)
 
-graph = dataset[0]
+graph = dataset[0] 
 main_node = dataset[1]
 page_ranks = dataset[2]
 """
