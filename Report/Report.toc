@@ -16,7 +16,7 @@
 \contentsline {subsection}{\numberline {4.2}Convergence Testing}{7}{subsection.4.2}
 \contentsline {subsection}{\numberline {4.3}Sybil Resistance}{7}{subsection.4.3}
 \contentsline {section}{\numberline {5}Application to the Tribler Network}{10}{section.5}
-\contentsline {subsection}{\numberline {5.1}Generating the Graph}{10}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.1}Running the Algorithm}{10}{subsection.5.1}
 \contentsline {subsection}{\numberline {5.2}Incremental Update}{10}{subsection.5.2}
 \contentsline {section}{\numberline {6}Conclusion}{11}{section.6}
 \contentsline {section}{\numberline {7}Outlook}{11}{section.7}

@@ -1,1 +1,21 @@
-\BOOKMARK [1][-]{section*.2}{\376\377\000C\000o\000n\000t\000e\000n\000t\000s}{}% 1
+\BOOKMARK [1][-]{section.1}{Abstract}{}% 1
+\BOOKMARK [1][-]{section.2}{Introduction}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Historical Perspective}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Trust}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Trustchain}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.4}{Problem Description}{section.2}% 6
+\BOOKMARK [1][-]{section.3}{Preliminaries}{}% 7
+\BOOKMARK [2][-]{subsection.3.1}{The Model}{section.3}% 8
+\BOOKMARK [2][-]{subsection.3.2}{Interaction Graphs in Tribler}{section.3}% 9
+\BOOKMARK [1][-]{section.4}{The Algorithm}{}% 10
+\BOOKMARK [2][-]{subsection.4.1}{PageRank}{section.4}% 11
+\BOOKMARK [2][-]{subsection.4.2}{Monte Carlo Methods for PageRank approximations}{section.4}% 12
+\BOOKMARK [1][-]{section.5}{Implementation}{}% 13
+\BOOKMARK [2][-]{subsection.5.1}{Unit Testing}{section.5}% 14
+\BOOKMARK [2][-]{subsection.5.2}{Convergence Testing}{section.5}% 15
+\BOOKMARK [2][-]{subsection.5.3}{Sybil Resistance}{section.5}% 16
+\BOOKMARK [1][-]{section.6}{Application to the Tribler Network}{}% 17
+\BOOKMARK [2][-]{subsection.6.1}{Running the Algorithm}{section.6}% 18
+\BOOKMARK [2][-]{subsection.6.2}{Incremental Update}{section.6}% 19
+\BOOKMARK [1][-]{section.7}{Conclusion}{}% 20
+\BOOKMARK [1][-]{section.8}{Outlook}{}% 21
